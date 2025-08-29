@@ -1,0 +1,21 @@
+apiVersion: v2
+name: universal-app-chart
+description: A comprehensive Helm chart for deploying applications with all necessary Kubernetes resources
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+home: https://github.com/your-org/universal-app-chart
+sources:
+  - https://github.com/your-org/universal-app-chart
+maintainers:
+  - name: Your Name
+    email: your.email@example.com
+keywords:
+  - kubernetes
+  - deployment
+  - configmap
+  - persistentvolume
+  - istio
+  - microservices
+annotations:
+  category: Application

@@ -1,0 +1,15 @@
+{{- if .Values.features.persistentVolume }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "app.name" . }}-pv
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  capacity:
+    storage: {{ .Values.storage.size }}
+  accessModes:
+    - {{ .Values.storage.accessMode }}
+  storageClassName: {{ .Values.storage.storageClass }}
+  persistentVolumeReclaimPolicy: Retain
+{{- end }}

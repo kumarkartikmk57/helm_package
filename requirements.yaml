@@ -1,0 +1,28 @@
+# Chart dependencies
+# This file is used to define dependencies for this Helm chart
+# Uncomment and modify the dependencies below as needed
+
+dependencies:
+  # Example: Add Istio as a dependency if needed
+  # - name: istio-base
+  #   version: "1.20.0"
+  #   repository: https://istio-release.storage.googleapis.com/charts
+  #   condition: istio.enabled
+  
+  # Example: Add PostgreSQL as a dependency
+  # - name: postgresql
+  #   version: "12.1.9"
+  #   repository: https://charts.bitnami.com/bitnami
+  #   condition: postgresql.enabled
+  
+  # Example: Add Redis as a dependency
+  # - name: redis
+  #   version: "17.3.7"
+  #   repository: https://charts.bitnami.com/bitnami
+  #   condition: redis.enabled
+  
+  # Example: Add ingress-nginx as a dependency
+  # - name: ingress-nginx
+  #   version: "4.4.0"
+  #   repository: https://kubernetes.github.io/ingress-nginx
+  #   condition: ingress.enabled

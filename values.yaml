@@ -1,0 +1,94 @@
+# Simple configuration values for universal-app-chart
+# Developers only need to modify these values - the templates will handle all formatting
+
+# Global settings
+global:
+  namespace: default  # Kubernetes namespace to deploy to
+
+# Basic application settings
+app:
+  name: my-app  # Application name used for all resources
+  version: "1.0.0"  # Application version
+
+# Docker image settings
+image:
+  registry: gcr.io  # Container registry (e.g., gcr.io, docker.io)
+  repository: my-project/my-app  # Image repository
+  tag: "latest"  # Image tag
+  pullPolicy: IfNotPresent  # Image pull policy (IfNotPresent, Always, Never)
+
+# Features to enable/disable
+features:
+  deployment: true  # Enable Kubernetes Deployment
+  service: true  # Enable Kubernetes Service
+  configMap: true  # Enable ConfigMap for configuration
+  persistentVolume: false  # Enable Persistent Volume
+  istio: false  # Enable Istio service mesh features
+  ingress: false  # Enable Kubernetes Ingress
+  autoscaling: false  # Enable Horizontal Pod Autoscaler
+
+# Deployment configuration
+deployment:
+  replicas: 1  # Number of pod replicas
+  containerPort: 8080  # Main container port
+  
+  # Resource limits
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+  
+  # Environment variables (key-value pairs)
+  env:
+    ENV: "production"
+    LOG_LEVEL: "info"
+    # Add more environment variables as needed
+
+# Service configuration
+service:
+  type: ClusterIP  # Service type (ClusterIP, NodePort, LoadBalancer)
+  port: 80  # Service port
+
+# ConfigMap data (key-value pairs)
+configMapData:
+  # Each key will be a file in the ConfigMap
+  "app.properties": |
+    server.port=8080
+    logging.level.root=INFO
+  "config.yaml": |
+    database:
+      host: localhost
+      port: 5432
+  # Add more configuration files as needed
+
+# Persistent storage configuration
+storage:
+  size: 10Gi  # Storage size
+  storageClass: standard  # Storage class
+  accessMode: ReadWriteOnce  # Access mode (ReadWriteOnce, ReadOnlyMany, ReadWriteMany)
+
+# Istio configuration
+istio:
+  gateway: my-gateway  # Istio gateway name
+  hosts:
+    - my-app.example.com  # Hostnames for virtual service
+  
+  # Traffic routing (percentage to each version)
+  trafficRouting:
+    v1: 100  # Percentage to v1
+    v2: 0    # Percentage to v2
+
+# Ingress configuration
+ingress:
+  host: my-app.local  # Hostname for ingress
+  path: /  # Path for ingress
+  tls: false  # Enable TLS
+
+# Autoscaling configuration
+autoscaling:
+  minReplicas: 1  # Minimum replicas
+  maxReplicas: 10  # Maximum replicas
+  targetCPU: 80  # Target CPU utilization percentage

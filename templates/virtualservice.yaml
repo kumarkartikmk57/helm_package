@@ -1,0 +1,72 @@
+{{- if and .Values.istio.enabled .Values.istio.virtualService.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Values.istio.virtualService.name }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- range $key, $value := .Values.app.labels }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  hosts:
+  {{- range .Values.istio.virtualService.hosts }}
+  - {{ . }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.gateways }}
+  gateways:
+  {{- range .Values.istio.virtualService.gateways }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.http }}
+  http:
+  {{- range .Values.istio.virtualService.http }}
+  - {{- if .match }}
+    match:
+    {{- range .match }}
+    - {{- if .uri }}
+      uri:
+        {{- toYaml .uri | nindent 8 }}
+      {{- end }}
+      {{- if .headers }}
+      headers:
+        {{- toYaml .headers | nindent 8 }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- if .route }}
+    route:
+    {{- range .route }}
+    - destination:
+        host: {{ .destination.host }}
+        {{- if .destination.port }}
+        port:
+          number: {{ .destination.port.number }}
+        {{- end }}
+        {{- if .destination.subset }}
+        subset: {{ .destination.subset }}
+        {{- end }}
+      {{- if .weight }}
+      weight: {{ .weight }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- if .redirect }}
+    redirect:
+      {{- toYaml .redirect | nindent 6 }}
+    {{- end }}
+    {{- if .rewrite }}
+    rewrite:
+      {{- toYaml .rewrite | nindent 6 }}
+    {{- end }}
+    {{- if .timeout }}
+    timeout: {{ .timeout }}
+    {{- end }}
+    {{- if .retries }}
+    retries:
+      {{- toYaml .retries | nindent 6 }}
+    {{- end }}
+  {{- end }}
+  {{- end }}
+{{- end }}
